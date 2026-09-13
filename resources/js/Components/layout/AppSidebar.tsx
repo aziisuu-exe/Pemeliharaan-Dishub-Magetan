@@ -5,12 +5,12 @@ import {
     Layers, 
     MapPin, 
     Package, 
-    Wrench, 
+    Wrench,
+    History, 
     FileText 
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { DishubLogo } from '../ui/DishubLogo';
-
 
 interface AppSidebarProps {
     isOpen: boolean;
@@ -25,6 +25,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ isOpen }) => {
         { title: 'Lokasi', href: '/locations', icon: MapPin, active: url.startsWith('/locations') },
         { title: 'Inventaris', href: '/inventories', icon: Package, active: url.startsWith('/inventories') },
         { title: 'Pemeliharaan', href: '/maintenances', icon: Wrench, active: url.startsWith('/maintenances') },
+        { title: 'Riwayat', href: '/history', icon: History, active: url.startsWith('/history') },
         { title: 'Laporan', href: '/reports', icon: FileText, active: url.startsWith('/reports') },
     ];
 

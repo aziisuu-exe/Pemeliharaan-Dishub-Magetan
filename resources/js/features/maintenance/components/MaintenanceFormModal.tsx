@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
-import { toast } from 'sonner';
 import { Inventory, Maintenance, UserOption } from '@/types/siprana';
 import { MaintenanceFormData } from '../types';
 import { Modal } from '@/Components/modal/Modal';
@@ -57,13 +56,8 @@ export const MaintenanceFormModal: React.FC<MaintenanceFormModalProps> = ({
         e.preventDefault();
         const options = {
             onSuccess: () => {
-                toast.success(maintenance ? 'Data berhasil diperbarui.' : 'Data berhasil ditambahkan.');
                 reset();
                 onClose();
-            },
-            onError: (errs: Record<string, string>) => {
-                const firstError = Object.values(errs)[0];
-                toast.error(firstError || 'Validasi gagal.');
             },
         };
 
