@@ -11,29 +11,39 @@ class LocationSeeder extends Seeder
     {
         $locations = [
             [
-                'name' => 'Jl. Yos Sudarso (Pusat Kota)',
-                'address' => 'Kecamatan Magetan, Kabupaten Magetan',
+                'name' => 'Jl. Yos Sudarso (Alun-Alun Magetan)',
+                'address' => 'Kecamatan Magetan Kota, Magetan',
                 'coordinate' => '-7.6534, 111.3281',
             ],
             [
                 'name' => 'Simpang Empat Pasar Baru Magetan',
-                'address' => 'Jl. Jenderal Sudirman, Magetan',
-                'coordinate' => '-7.6512, 111.3255',
+                'address' => 'Jl. Mayjen Sukowati, Magetan',
+                'coordinate' => '-7.6495, 111.3298',
             ],
             [
-                'name' => 'Kawasan Wisata Telaga Sarangan',
-                'address' => 'Kecamatan Plaosan, Kabupaten Magetan',
+                'name' => 'Ruas Jalur Wisata Telaga Sarangan',
+                'address' => 'Kecamatan Plaosan, Magetan',
                 'coordinate' => '-7.6761, 111.2227',
             ],
             [
-                'name' => 'Terminal Purboyo Magetan',
-                'address' => 'Jl. Mayjen Sukowati, Magetan',
-                'coordinate' => '-7.6489, 111.3342',
+                'name' => 'Terminal Maospati Magetan',
+                'address' => 'Jl. Raya Maospati - Madiun, Maospati',
+                'coordinate' => '-7.5672, 111.4391',
             ],
             [
-                'name' => 'Jl. Raya Maospati - Madiun',
-                'address' => 'Kecamatan Maospati, Kabupaten Magetan',
-                'coordinate' => '-7.5891, 111.4312',
+                'name' => 'Simpang Tiga Gorang-Gareng',
+                'address' => 'Kecamatan Kawedanan, Magetan',
+                'coordinate' => '-7.6812, 111.3912',
+            ],
+            [
+                'name' => 'Simpang Empat Kraton',
+                'address' => 'Jl. Diponegoro, Magetan',
+                'coordinate' => '-7.6582, 111.3341',
+            ],
+            [
+                'name' => 'Kawasan Perkantoran Pemkab Magetan',
+                'address' => 'Jl. Basuki Rahmat, Magetan',
+                'coordinate' => '-7.6521, 111.3265',
             ],
         ];
 

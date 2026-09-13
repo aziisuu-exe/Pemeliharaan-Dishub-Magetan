@@ -10,13 +10,35 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::firstOrCreate(
-            ['email' => 'admin.dishub@magetan.go.id'],
+        $users = [
             [
                 'name' => 'Administrator Dishub Magetan',
+                'email' => 'admin.dishub@magetan.go.id',
                 'password' => Hash::make('PasswordDishub2026!'),
                 'email_verified_at' => now(),
-            ]
-        );
+            ],
+            [
+                'name' => 'Bambang Sudarsono (Petugas PJU)',
+                'email' => 'bambang.pju@magetan.go.id',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ],
+            [
+                'name' => 'Hendro Prasetyo (Petugas APILL)',
+                'email' => 'hendro.apill@magetan.go.id',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ],
+            [
+                'name' => 'Agus Wahyudi (Petugas Rambu & Marka)',
+                'email' => 'agus.rambu@magetan.go.id',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ],
+        ];
+
+        foreach ($users as $user) {
+            User::firstOrCreate(['email' => $user['email']], $user);
+        }
     }
 }

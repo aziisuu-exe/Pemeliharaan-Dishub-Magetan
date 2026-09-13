@@ -17,7 +17,7 @@ class CategorySeeder extends Seeder
             ['name' => 'Road Barrier', 'description' => 'Pembatas jalan plastik dan beton pengaman jalur'],
             ['name' => 'Cermin Tikungan', 'description' => 'Cermin cembung tikungan tajam dan blind spot jalan'],
             ['name' => 'Halte Angkutan', 'description' => 'Fasilitas shelter dan tempat pemberhentian angkutan umum'],
-            ['name' => 'Pagar Pengaman Jalan (Guardrail)', 'description' => 'Pagar pengaman baja untuk lereng dan jurang'],
+            ['name' => 'Pagar Pengaman Jalan (Guardrail)', 'description' => 'Pagar pengaman baja untuk lereng dan jurang pegunungan'],
         ];
 
         foreach ($categories as $cat) {

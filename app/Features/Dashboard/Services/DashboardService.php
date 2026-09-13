@@ -3,25 +3,22 @@
 namespace App\Features\Dashboard\Services;
 
 use App\Features\Dashboard\Repositories\DashboardRepository;
-use App\Support\Enums\ItemCondition;
 
 class DashboardService
 {
     public function __construct(
-        protected DashboardRepository $repository
+        protected DashboardRepository $dashboardRepository
     ) {}
 
     public function getDashboardSummary(): array
     {
         return [
-            'total_inventories' => $this->repository->countTotalInventories(),
-            'total_maintenances' => $this->repository->countTotalMaintenances(),
-            'conditions' => [
-                'good' => $this->repository->countInventoriesByCondition(ItemCondition::GOOD),
-                'light_damage' => $this->repository->countInventoriesByCondition(ItemCondition::LIGHT_DAMAGE),
-                'heavy_damage' => $this->repository->countInventoriesByCondition(ItemCondition::HEAVY_DAMAGE),
-            ],
-            'recent_maintenances' => $this->repository->getRecentMaintenances(5),
+            'total_inventories' => $this->dashboardRepository->getTotalInventories(),
+            'total_maintenances' => $this->dashboardRepository->getTotalMaintenances(),
+            'good_condition' => $this->dashboardRepository->getGoodConditionCount(),
+            'repair_needed' => $this->dashboardRepository->getRepairNeededCount(),
+            'condition_distribution' => $this->dashboardRepository->getConditionDistribution(),
+            'recent_maintenances' => $this->dashboardRepository->getRecentMaintenances(),
         ];
     }
 }

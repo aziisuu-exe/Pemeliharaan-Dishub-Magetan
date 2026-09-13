@@ -1,4 +1,5 @@
 export type ItemCondition = 'good' | 'light_damage' | 'heavy_damage';
+export type ItemConditionType = ItemCondition;
 
 export interface UserOption {
     id: number;
@@ -9,7 +10,7 @@ export interface UserOption {
 export interface Category {
     id: number;
     name: string;
-    code: string;
+    code?: string;
     description?: string | null;
     inventories_count?: number;
     created_at?: string;
@@ -19,8 +20,9 @@ export interface Category {
 export interface Location {
     id: number;
     name: string;
-    code: string;
+    code?: string;
     address?: string | null;
+    coordinate?: string | null;
     description?: string | null;
     inventories_count?: number;
     created_at?: string;
@@ -35,11 +37,15 @@ export interface Inventory {
     name: string;
     condition: ItemCondition;
     condition_label?: string;
+    quantity?: number;
+    unit?: string;
+    procurement_year?: number;
     photo?: string | null;
     specification?: string | null;
     category?: Category;
     location?: Location;
     maintenances?: Maintenance[];
+    maintenances_count?: number;
     created_at?: string;
     updated_at?: string;
 }
