@@ -1,20 +1,30 @@
-export type ItemConditionType = 'good' | 'light_damage' | 'heavy_damage';
+export type ItemCondition = 'good' | 'light_damage' | 'heavy_damage';
+
+export interface UserOption {
+    id: number;
+    name: string;
+    email?: string;
+}
 
 export interface Category {
     id: number;
     name: string;
-    description: string | null;
+    code: string;
+    description?: string | null;
     inventories_count?: number;
     created_at?: string;
+    updated_at?: string;
 }
 
 export interface Location {
     id: number;
     name: string;
-    address: string | null;
-    coordinate: string | null;
+    code: string;
+    address?: string | null;
+    description?: string | null;
     inventories_count?: number;
     created_at?: string;
+    updated_at?: string;
 }
 
 export interface Inventory {
@@ -23,33 +33,31 @@ export interface Inventory {
     location_id: number;
     code: string;
     name: string;
-    condition: ItemConditionType;
-    condition_label: string;
-    quantity: number;
-    unit: string;
-    procurement_year: number | null;
-    specification: string | null;
+    condition: ItemCondition;
+    condition_label?: string;
+    photo?: string | null;
+    specification?: string | null;
     category?: Category;
     location?: Location;
     maintenances?: Maintenance[];
     created_at?: string;
+    updated_at?: string;
 }
 
 export interface Maintenance {
     id: number;
     inventory_id: number;
-    user_id: number;
+    user_id?: number | null;
     maintenance_date: string;
-    condition_before: ItemConditionType;
-    condition_before_label: string;
-    condition_after: ItemConditionType;
-    condition_after_label: string;
+    condition_before: ItemCondition | string;
+    condition_after: ItemCondition | string;
+    condition_before_label?: string;
+    condition_after_label?: string;
     action_description: string;
-    cost: number;
-    officer_name: string;
     inventory?: Inventory;
-    user_name?: string;
+    user?: UserOption;
     created_at?: string;
+    updated_at?: string;
 }
 
 export interface PaginationLink {
@@ -58,12 +66,22 @@ export interface PaginationLink {
     active: boolean;
 }
 
-export interface PaginatedResponse<T> {
+export interface PaginatedData<T> {
     data: T[];
-    links: PaginationLink[];
-    current_page: number;
-    last_page: number;
-    from: number | null;
-    to: number | null;
-    total: number;
+    from?: number;
+    to?: number;
+    total?: number;
+    current_page?: number;
+    last_page?: number;
+    per_page?: number;
+    links?: PaginationLink[];
+    meta?: {
+        from: number;
+        to: number;
+        total: number;
+        current_page: number;
+        last_page: number;
+        per_page: number;
+        links: PaginationLink[];
+    };
 }

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
-import { Inventory, Maintenance } from '@/types/siprana';
+import { toast } from 'sonner';
+import { Inventory, Maintenance, UserOption } from '@/types/siprana';
 import { MaintenanceFormData } from '../types';
 import { Modal } from '@/Components/modal/Modal';
 import { Select } from '@/Components/ui/Select';
@@ -12,6 +13,7 @@ interface MaintenanceFormModalProps {
     onClose: () => void;
     maintenance: Maintenance | null;
     inventories: Inventory[] | { data: Inventory[] };
+    users: UserOption[];
 }
 
 export const MaintenanceFormModal: React.FC<MaintenanceFormModalProps> = ({
@@ -19,6 +21,7 @@ export const MaintenanceFormModal: React.FC<MaintenanceFormModalProps> = ({
     onClose,
     maintenance,
     inventories,
+    users = [],
 }) => {
     const inventoryList = Array.isArray(inventories)
         ? inventories
@@ -27,22 +30,22 @@ export const MaintenanceFormModal: React.FC<MaintenanceFormModalProps> = ({
     const { data, setData, post, put, processing, errors, reset, clearErrors } =
         useForm<MaintenanceFormData>({
             inventory_id: '',
+            user_id: '',
             maintenance_date: new Date().toISOString().split('T')[0],
             condition_before: 'light_damage',
             condition_after: 'good',
             action_description: '',
-            officer_name: '',
         });
 
     useEffect(() => {
         if (maintenance) {
             setData({
                 inventory_id: maintenance.inventory_id,
-                maintenance_date: maintenance.maintenance_date,
+                user_id: maintenance.user_id ?? '',
+                maintenance_date: maintenance.maintenance_date?.split('T')[0] ?? '',
                 condition_before: maintenance.condition_before,
                 condition_after: maintenance.condition_after,
                 action_description: maintenance.action_description,
-                officer_name: maintenance.officer_name,
             });
         } else {
             reset();
@@ -52,14 +55,22 @@ export const MaintenanceFormModal: React.FC<MaintenanceFormModalProps> = ({
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        const options = {
+            onSuccess: () => {
+                toast.success(maintenance ? 'Data berhasil diperbarui.' : 'Data berhasil ditambahkan.');
+                reset();
+                onClose();
+            },
+            onError: (errs: Record<string, string>) => {
+                const firstError = Object.values(errs)[0];
+                toast.error(firstError || 'Validasi gagal.');
+            },
+        };
+
         if (maintenance) {
-            put(`/maintenances/${maintenance.id}`, {
-                onSuccess: () => { reset(); onClose(); },
-            });
+            put(`/maintenances/${maintenance.id}`, options);
         } else {
-            post('/maintenances', {
-                onSuccess: () => { reset(); onClose(); },
-            });
+            post('/maintenances', options);
         }
     };
 
@@ -87,6 +98,24 @@ export const MaintenanceFormModal: React.FC<MaintenanceFormModalProps> = ({
                             </option>
                         ))}
                     </Select>
+                    <Select
+                        id="user_id"
+                        label="Petugas Pelaksana"
+                        value={data.user_id}
+                        onChange={(e) => setData('user_id', e.target.value === '' ? '' : Number(e.target.value))}
+                        error={errors.user_id}
+                        required
+                    >
+                        <option value="">Pilih Petugas Dishub</option>
+                        {users.map((u) => (
+                            <option key={u.id} value={u.id}>
+                                {u.name}
+                            </option>
+                        ))}
+                    </Select>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <Input
                         id="maintenance_date"
                         type="date"
@@ -96,12 +125,9 @@ export const MaintenanceFormModal: React.FC<MaintenanceFormModalProps> = ({
                         error={errors.maintenance_date}
                         required
                     />
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <Select
                         id="condition_before"
-                        label="Kondisi Sebelum Tindakan"
+                        label="Kondisi Sebelum"
                         value={data.condition_before}
                         onChange={(e) => setData('condition_before', e.target.value)}
                         error={errors.condition_before}
@@ -113,7 +139,7 @@ export const MaintenanceFormModal: React.FC<MaintenanceFormModalProps> = ({
                     </Select>
                     <Select
                         id="condition_after"
-                        label="Kondisi Sesudah Tindakan"
+                        label="Kondisi Sesudah"
                         value={data.condition_after}
                         onChange={(e) => setData('condition_after', e.target.value)}
                         error={errors.condition_after}
@@ -126,18 +152,6 @@ export const MaintenanceFormModal: React.FC<MaintenanceFormModalProps> = ({
                 </div>
 
                 <div>
-                    <Input
-                        id="officer_name"
-                        label="Teknisi / Petugas Pelaksana"
-                        placeholder="Nama petugas Dishub"
-                        value={data.officer_name}
-                        onChange={(e) => setData('officer_name', e.target.value)}
-                        error={errors.officer_name}
-                        required
-                    />
-                </div>
-
-                <div>
                     <label htmlFor="action_description" className="block text-sm font-medium text-slate-700 mb-1">
                         Deskripsi Tindakan Perbaikan <span className="text-red-500">*</span>
                     </label>
@@ -145,7 +159,7 @@ export const MaintenanceFormModal: React.FC<MaintenanceFormModalProps> = ({
                         id="action_description"
                         rows={3}
                         className="w-full text-sm rounded-md border border-slate-300 p-2.5 bg-white text-slate-900 focus:outline-none focus:border-blue-600 transition-colors"
-                        placeholder="Uraian perbaikan, penggantian modul..."
+                        placeholder="Uraian perbaikan, penanganan kerusakan..."
                         value={data.action_description}
                         onChange={(e) => setData('action_description', e.target.value)}
                         required

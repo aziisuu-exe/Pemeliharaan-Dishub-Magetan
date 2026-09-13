@@ -43,10 +43,10 @@ export default function MaintenancePrint({ maintenances, filters }: MaintenanceR
                                 <td className="border border-slate-400 p-2">{m.maintenance_date}</td>
                                 <td className="border border-slate-400 p-2 font-medium">{m.inventory?.name ?? '-'}</td>
                                 <td className="border border-slate-400 p-2 text-center">
-                                    {m.condition_before_label} → {m.condition_after_label}
+                                    {m.condition_before_label ?? m.condition_before} → {m.condition_after_label ?? m.condition_after}
                                 </td>
                                 <td className="border border-slate-400 p-2">{m.action_description}</td>
-                                <td className="border border-slate-400 p-2">{m.officer_name}</td>
+                                <td className="border border-slate-400 p-2">{m.user?.name ?? '-'}</td>
                             </tr>
                         ))
                     )}

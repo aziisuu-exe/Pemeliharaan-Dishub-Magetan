@@ -13,7 +13,7 @@ import { Card } from '@/Components/ui/Card';
 import { Pagination } from '@/Components/table/Pagination';
 import { ConfirmDialog } from '@/Components/modal/ConfirmDialog';
 
-export default function Index({ maintenances, inventories = [], filters }: MaintenancePageProps) {
+export default function Index({ maintenances, inventories = [], users = [], filters }: MaintenancePageProps) {
     const [search, setSearch] = useState(filters?.search ?? '');
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState<Maintenance | null>(null);
@@ -63,7 +63,11 @@ export default function Index({ maintenances, inventories = [], filters }: Maint
             cell: (m) => <Badge condition={m.condition_after} />,
         },
         { header: 'Tindakan', accessorKey: 'action_description' },
-        { header: 'Petugas', accessorKey: 'officer_name', className: 'w-36 text-slate-600' },
+        {
+            header: 'Petugas',
+            className: 'w-36 text-slate-600',
+            cell: (m) => <span>{m.user?.name ?? '-'}</span>,
+        },
         {
             header: 'Aksi',
             className: 'w-20 text-right',
@@ -123,6 +127,7 @@ export default function Index({ maintenances, inventories = [], filters }: Maint
                 onClose={() => setIsFormOpen(false)}
                 maintenance={selectedItem}
                 inventories={inventories}
+                users={users}
             />
 
             <ConfirmDialog

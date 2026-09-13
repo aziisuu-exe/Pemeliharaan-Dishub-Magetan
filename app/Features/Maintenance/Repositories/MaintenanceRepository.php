@@ -7,26 +7,21 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class MaintenanceRepository
 {
-    public function paginate(
-        int $perPage = 10,
-        ?string $search = null,
-        ?int $inventoryId = null
-    ): LengthAwarePaginator {
-        return Maintenance::query()
-            ->with(['inventory.category', 'inventory.location', 'user'])
-            ->when($search, function ($q) use ($search) {
-                $q->whereHas('inventory', fn ($sub) => $sub->where('name', 'like', "%{$search}%")->orWhere('code', 'like', "%{$search}%"))
-                    ->orWhere('officer_name', 'like', "%{$search}%");
-            })
-            ->when($inventoryId, fn ($q) => $q->where('inventory_id', $inventoryId))
-            ->latest('maintenance_date')
-            ->latest('id')
-            ->paginate($perPage);
-    }
-
-    public function findById(int $id): ?Maintenance
+    public function paginate(?string $search = null, int $perPage = 10): LengthAwarePaginator
     {
-        return Maintenance::with(['inventory', 'user'])->find($id);
+        return Maintenance::query()
+            ->with(['inventory', 'user'])
+            ->when($search, function ($query, $search) {
+                $query->whereHas('inventory', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('code', 'like', "%{$search}%");
+                })->orWhereHas('user', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                });
+            })
+            ->latest('maintenance_date')
+            ->paginate($perPage)
+            ->withQueryString();
     }
 
     public function create(array $data): Maintenance

@@ -12,17 +12,21 @@ class MaintenanceResource extends JsonResource
         return [
             'id' => $this->id,
             'inventory_id' => $this->inventory_id,
-            'inventory_name' => $this->inventory?->name,
-            'inventory_code' => $this->inventory?->code,
-            'officer_name' => $this->officer_name,
+            'user_id' => $this->user_id,
             'maintenance_date' => $this->maintenance_date?->format('Y-m-d'),
-            'completion_date' => $this->completion_date?->format('Y-m-d'),
             'condition_before' => $this->condition_before?->value ?? $this->condition_before,
             'condition_after' => $this->condition_after?->value ?? $this->condition_after,
-            'issue_description' => $this->issue_description,
-            'action_taken' => $this->action_taken,
-            'status' => $this->status,
-            'created_at' => $this->created_at?->toISOString(),
+            'action_description' => $this->action_description,
+            'officer_name' => $this->officer_display_name,
+            'inventory' => $this->whenLoaded('inventory', fn () => [
+                'id' => $this->inventory->id,
+                'name' => $this->inventory->name,
+                'code' => $this->inventory->code,
+            ]),
+            'user' => $this->whenLoaded('user', fn () => [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+            ]),
         ];
     }
 }

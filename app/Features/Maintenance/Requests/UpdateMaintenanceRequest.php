@@ -17,14 +17,11 @@ class UpdateMaintenanceRequest extends FormRequest
     {
         return [
             'inventory_id' => ['required', 'exists:inventories,id'],
-            'officer_name' => ['required', 'string', 'max:255'],
+            'user_id' => ['required', 'exists:users,id'],
             'maintenance_date' => ['required', 'date'],
-            'completion_date' => ['nullable', 'date', 'after_or_equal:maintenance_date'],
             'condition_before' => ['required', new Enum(ItemCondition::class)],
-            'condition_after' => ['nullable', new Enum(ItemCondition::class)],
-            'issue_description' => ['required', 'string'],
-            'action_taken' => ['nullable', 'string'],
-            'status' => ['required', 'in:pending,in_progress,completed'],
+            'condition_after' => ['required', new Enum(ItemCondition::class)],
+            'action_description' => ['required', 'string', 'max:1000'],
         ];
     }
 }
