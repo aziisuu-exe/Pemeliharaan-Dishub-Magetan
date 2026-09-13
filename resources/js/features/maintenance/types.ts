@@ -1,20 +1,30 @@
-import { Inventory, ItemConditionType, Maintenance, PaginatedResponse } from '@/types/siprana';
-
-export interface MaintenancePageProps {
-    maintenances: PaginatedResponse<Maintenance>;
-    inventories?: Inventory[];
-    filters: {
-        search?: string;
-        inventory_id?: string;
-    };
-}
+import { Inventory, Maintenance } from '@/types/siprana';
 
 export interface MaintenanceFormData {
-    inventory_id: string;
+    inventory_id: number | '';
     maintenance_date: string;
-    condition_before: ItemConditionType;
-    condition_after: ItemConditionType;
+    condition_before: string;
+    condition_after: string;
     action_description: string;
-    cost: number | '';
     officer_name: string;
+}
+
+export interface MaintenancePageProps {
+    maintenances: {
+        data: Maintenance[];
+        from?: number;
+        to?: number;
+        total?: number;
+        links?: any[];
+        meta?: {
+            from: number;
+            to: number;
+            total: number;
+            links: any[];
+        };
+    };
+    inventories: Inventory[] | { data: Inventory[] };
+    filters?: {
+        search?: string;
+    };
 }

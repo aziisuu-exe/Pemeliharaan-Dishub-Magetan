@@ -16,23 +16,22 @@ class Maintenance extends Model
     protected $fillable = [
         'inventory_id',
         'user_id',
+        'officer_name',
         'maintenance_date',
+        'completion_date',
         'condition_before',
         'condition_after',
-        'action_description',
-        'cost',
-        'officer_name',
+        'issue_description',
+        'action_taken',
+        'status',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'maintenance_date' => 'date',
-            'condition_before' => ItemCondition::class,
-            'condition_after' => ItemCondition::class,
-            'cost' => 'decimal:2',
-        ];
-    }
+    protected $casts = [
+        'maintenance_date' => 'date',
+        'completion_date' => 'date',
+        'condition_before' => ItemCondition::class,
+        'condition_after' => ItemCondition::class,
+    ];
 
     public function inventory(): BelongsTo
     {

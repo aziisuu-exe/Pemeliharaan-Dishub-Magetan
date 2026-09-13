@@ -2,7 +2,6 @@
 
 namespace App\Features\Maintenance\Resources;
 
-use App\Features\Inventory\Resources\InventoryResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -13,18 +12,17 @@ class MaintenanceResource extends JsonResource
         return [
             'id' => $this->id,
             'inventory_id' => $this->inventory_id,
-            'user_id' => $this->user_id,
-            'maintenance_date' => $this->maintenance_date?->format('Y-m-d'),
-            'condition_before' => $this->condition_before?->value,
-            'condition_before_label' => $this->condition_before?->label(),
-            'condition_after' => $this->condition_after?->value,
-            'condition_after_label' => $this->condition_after?->label(),
-            'action_description' => $this->action_description,
-            'cost' => (float) $this->cost,
+            'inventory_name' => $this->inventory?->name,
+            'inventory_code' => $this->inventory?->code,
             'officer_name' => $this->officer_name,
-            'inventory' => new InventoryResource($this->whenLoaded('inventory')),
-            'user_name' => $this->user?->name,
-            'created_at' => $this->created_at?->format('Y-m-d H:i'),
+            'maintenance_date' => $this->maintenance_date?->format('Y-m-d'),
+            'completion_date' => $this->completion_date?->format('Y-m-d'),
+            'condition_before' => $this->condition_before?->value ?? $this->condition_before,
+            'condition_after' => $this->condition_after?->value ?? $this->condition_after,
+            'issue_description' => $this->issue_description,
+            'action_taken' => $this->action_taken,
+            'status' => $this->status,
+            'created_at' => $this->created_at?->toISOString(),
         ];
     }
 }

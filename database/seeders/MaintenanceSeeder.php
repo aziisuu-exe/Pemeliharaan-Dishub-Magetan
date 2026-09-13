@@ -27,7 +27,6 @@ class MaintenanceSeeder extends Seeder
                     'condition_before' => ItemCondition::LIGHT_DAMAGE->value,
                     'condition_after' => ItemCondition::LIGHT_DAMAGE->value,
                     'action_description' => 'Pembersihan lapisan cermin cembung dan pengencangan klem tiang',
-                    'cost' => 150000,
                     'officer_name' => 'Teknisi Dishub Sarpras',
                 ]
             );
@@ -44,7 +43,6 @@ class MaintenanceSeeder extends Seeder
                     'condition_before' => ItemCondition::LIGHT_DAMAGE->value,
                     'condition_after' => ItemCondition::GOOD->value,
                     'action_description' => 'Penggantian modul catu daya lampu aspek kuning dan kalibrasi timer',
-                    'cost' => 450000,
                     'officer_name' => 'Tim APILL Dishub Magetan',
                 ]
             );

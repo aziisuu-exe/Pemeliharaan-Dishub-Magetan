@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
-
 import { Inventory, Maintenance } from '@/types/siprana';
 import { MaintenanceFormData } from '../types';
 import { Modal } from '@/Components/modal/Modal';
@@ -32,19 +31,17 @@ export const MaintenanceFormModal: React.FC<MaintenanceFormModalProps> = ({
             condition_before: 'light_damage',
             condition_after: 'good',
             action_description: '',
-            cost: '',
             officer_name: '',
         });
 
     useEffect(() => {
         if (maintenance) {
             setData({
-                inventory_id: String(maintenance.inventory_id),
+                inventory_id: maintenance.inventory_id,
                 maintenance_date: maintenance.maintenance_date,
                 condition_before: maintenance.condition_before,
                 condition_after: maintenance.condition_after,
                 action_description: maintenance.action_description,
-                cost: maintenance.cost || '',
                 officer_name: maintenance.officer_name,
             });
         } else {
@@ -79,7 +76,7 @@ export const MaintenanceFormModal: React.FC<MaintenanceFormModalProps> = ({
                         id="inventory_id"
                         label="Aset Sarana Prasarana"
                         value={data.inventory_id}
-                        onChange={(e) => setData('inventory_id', e.target.value)}
+                        onChange={(e) => setData('inventory_id', e.target.value === '' ? '' : Number(e.target.value))}
                         error={errors.inventory_id}
                         required
                     >
@@ -106,7 +103,7 @@ export const MaintenanceFormModal: React.FC<MaintenanceFormModalProps> = ({
                         id="condition_before"
                         label="Kondisi Sebelum Tindakan"
                         value={data.condition_before}
-                        onChange={(e) => setData('condition_before', e.target.value as any)}
+                        onChange={(e) => setData('condition_before', e.target.value)}
                         error={errors.condition_before}
                         required
                     >
@@ -118,7 +115,7 @@ export const MaintenanceFormModal: React.FC<MaintenanceFormModalProps> = ({
                         id="condition_after"
                         label="Kondisi Sesudah Tindakan"
                         value={data.condition_after}
-                        onChange={(e) => setData('condition_after', e.target.value as any)}
+                        onChange={(e) => setData('condition_after', e.target.value)}
                         error={errors.condition_after}
                         required
                     >
@@ -128,17 +125,7 @@ export const MaintenanceFormModal: React.FC<MaintenanceFormModalProps> = ({
                     </Select>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <Input
-                        id="cost"
-                        type="number"
-                        min="0"
-                        label="Estimasi Biaya Perbaikan (Rp)"
-                        placeholder="Contoh: 150000"
-                        value={data.cost}
-                        onChange={(e) => setData('cost', e.target.value ? Number(e.target.value) : '')}
-                        error={errors.cost}
-                    />
+                <div>
                     <Input
                         id="officer_name"
                         label="Teknisi / Petugas Pelaksana"

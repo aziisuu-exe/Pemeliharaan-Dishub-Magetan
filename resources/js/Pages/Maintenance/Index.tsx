@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { router } from '@inertiajs/react';
-
 import { MaintenanceFilter } from '@/features/maintenance/components/MaintenanceFilter';
 import { MaintenanceFormModal } from '@/features/maintenance/components/MaintenanceFormModal';
 import { Maintenance } from '@/types/siprana';
@@ -64,12 +63,7 @@ export default function Index({ maintenances, inventories = [], filters }: Maint
             cell: (m) => <Badge condition={m.condition_after} />,
         },
         { header: 'Tindakan', accessorKey: 'action_description' },
-        {
-            header: 'Biaya',
-            className: 'w-28',
-            cell: (m) => <span>Rp {Number(m.cost || 0).toLocaleString('id-ID')}</span>,
-        },
-        { header: 'Petugas', accessorKey: 'officer_name', className: 'w-32 text-slate-600' },
+        { header: 'Petugas', accessorKey: 'officer_name', className: 'w-36 text-slate-600' },
         {
             header: 'Aksi',
             className: 'w-20 text-right',
@@ -114,7 +108,6 @@ export default function Index({ maintenances, inventories = [], filters }: Maint
                         onSubmit={handleFilterSubmit}
                         onReset={handleReset}
                     />
-
                     <DataTable columns={columns} data={maintenanceList} emptyMessage="Belum ada riwayat pemeliharaan tercatat." />
                     <Pagination
                         links={(maintenances as any)?.meta?.links ?? (maintenances as any)?.links}

@@ -4,7 +4,7 @@ namespace App\Features\Maintenance\Requests;
 
 use App\Support\Enums\ItemCondition;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateMaintenanceRequest extends FormRequest
 {
@@ -16,28 +16,15 @@ class UpdateMaintenanceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'inventory_id' => ['required', 'integer', 'exists:inventories,id'],
-            'maintenance_date' => ['required', 'date'],
-            'condition_before' => ['required', Rule::enum(ItemCondition::class)],
-            'condition_after' => ['required', Rule::enum(ItemCondition::class)],
-            'action_description' => ['required', 'string', 'max:2000'],
-            'cost' => ['nullable', 'numeric', 'min:0'],
+            'inventory_id' => ['required', 'exists:inventories,id'],
             'officer_name' => ['required', 'string', 'max:255'],
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'inventory_id.required' => 'Aset inventaris wajib dipilih.',
-            'inventory_id.exists' => 'Inventaris tidak ditemukan.',
-            'maintenance_date.required' => 'Tanggal pemeliharaan wajib diisi.',
-            'maintenance_date.date' => 'Format tanggal pemeliharaan tidak valid.',
-            'condition_before.required' => 'Kondisi sebelum tindakan wajib dipilih.',
-            'condition_after.required' => 'Kondisi sesudah tindakan wajib dipilih.',
-            'action_description.required' => 'Deskripsi tindakan perbaikan wajib diisi.',
-            'cost.numeric' => 'Estimasi biaya harus berupa angka.',
-            'officer_name.required' => 'Nama teknisi atau petugas pelaksana wajib diisi.',
+            'maintenance_date' => ['required', 'date'],
+            'completion_date' => ['nullable', 'date', 'after_or_equal:maintenance_date'],
+            'condition_before' => ['required', new Enum(ItemCondition::class)],
+            'condition_after' => ['nullable', new Enum(ItemCondition::class)],
+            'issue_description' => ['required', 'string'],
+            'action_taken' => ['nullable', 'string'],
+            'status' => ['required', 'in:pending,in_progress,completed'],
         ];
     }
 }

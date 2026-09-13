@@ -26,14 +26,13 @@ export default function MaintenancePrint({ maintenances, filters }: MaintenanceR
                         <th className="border border-slate-400 p-2 text-left">Nama Aset Sarpras</th>
                         <th className="border border-slate-400 p-2 text-center">Kondisi Awal / Akhir</th>
                         <th className="border border-slate-400 p-2 text-left">Tindakan</th>
-                        <th className="border border-slate-400 p-2 text-right w-24">Biaya</th>
-                        <th className="border border-slate-400 p-2 text-left w-32">Petugas</th>
+                        <th className="border border-slate-400 p-2 text-left w-36">Petugas</th>
                     </tr>
                 </thead>
                 <tbody>
                     {items.length === 0 ? (
                         <tr>
-                            <td colSpan={7} className="border border-slate-400 p-4 text-center text-slate-500">
+                            <td colSpan={6} className="border border-slate-400 p-4 text-center text-slate-500">
                                 Tidak ada data pemeliharaan pada periode ini.
                             </td>
                         </tr>
@@ -47,9 +46,6 @@ export default function MaintenancePrint({ maintenances, filters }: MaintenanceR
                                     {m.condition_before_label} → {m.condition_after_label}
                                 </td>
                                 <td className="border border-slate-400 p-2">{m.action_description}</td>
-                                <td className="border border-slate-400 p-2 text-right">
-                                    Rp {Number(m.cost || 0).toLocaleString('id-ID')}
-                                </td>
                                 <td className="border border-slate-400 p-2">{m.officer_name}</td>
                             </tr>
                         ))
